@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head id="head">
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+  <script src="./data/js/tweet_index.js"></script>
+  <script type="text/javascript">
+    var result = [];
+    var Grailbird = function (type, date, data) {
+      Grailbird.data = Grailbird.data || {};
+      Grailbird.data[type+'_'+date] = data;
+    };
+    Grailbird.data = Grailbird.data || {};
+    var head = document.getElementById("head");
+    var script;
+    for(var i = tweet_index.length - 1; i >= 0; --i) {
+      script = document.createElement("script");
+      script.src = "./" + tweet_index[i].file_name;
+      head.appendChild(script);
+    }
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var chart = new google.visualization.ColumnChart(document.getElementById('graph'));
+      var data = google.visualization.arrayToDataTable([
+        ['年月', 'ツイート数'],
+        ['', 0]
+      ]);
+      var options = {
+        title: 'ツイート数遷移',
+        legend: 'none',
+        width: 1500,
+        height: 750,
+        vAxis:{maxValue: 1000, gridlines: {count: 11}}
+      };
+      for(var i = tweet_index.length - 1; i >= 0; --i) {
+        data.addRows([[tweet_index[i].var_name.replace(/tweets_(\d*)_(\d*)/, "$1/$2"), tweet_index[i].tweet_count]]);
+        tweets = Grailbird.data[tweet_index[i].var_name];
+        for(var j = 0; j < tweets.length; ++j){
+          tmp = tweets[j].created_at.split(" ");
+          jst_date = new Date(tmp[0].replace(/-/g, "/") + " " + tmp[1] + " +0000")
+          year = jst_date.getFullYear();
+          month = jst_date.getMonth();
+          day = jst_date.getDay() - 1;
+          hour = jst_date.getHours();
+          minute = Math.floor(jst_date.getMinutes() / 5);
+
+          if(result[year] == null) {
+            result[year] = [];
+          }
+          if(result[year][month] == null) {
+            result[year][month] = [];
+          }
+          if(result[year][month][day] == null) {
+            result[year][month][day] = [];
+          }
+          if(result[year][month][day] == null) {
+            result[year][month][day] = [];
+          }
+          if(result[year][month][day][hour] == null) {
+            result[year][month][day][hour] = [];
+          }
+          if(result[year][month][day][hour][minute] == null) {
+            result[year][month][day][hour][minute] = {};
+            result[year][month][day][hour][minute].day_of_the_week = jst_date.getDay();
+            result[year][month][day][hour][minute].tweets = 0;
+          }
+          ++result[year][month][day][hour][minute].tweets;
+        }
+
+      }
+      console.log(result);
+      chart.draw(data, options);
+    }
+  </script>
+  <script>
+    window.onload = function(){
+      var btn1 = document.getElementById("btn1");
+      var calendar = document.getElementById("calendar");
+      var color_graph = document.getElementById("color_graph");
+      var color = [
+        "#FFF",
+        "#B4F8FF",
+        "#4BEEFF",
+        "#00E6FF",
+        "#00FFEF",
+        "#00FFD1",
+        "#00FFA6",
+        "#00FF73",
+        "#00FF4D",
+        "#49FF00",
+        "#A6FF00",
+        "#DAFF00",
+        "#FCFF00",
+        "#FFE200",
+        "#FFC900",
+        "#FFB300",
+        "#FFA600",
+        "#FF9500",
+        "#FF6F00",
+        "#FF0000",
+      ];
+      btn1.onclick = function(){
+        var result2 = [];
+        var per_day_of_the_week = [];
+        var max_of_day_of_the_week = [];
+        var k = document.getElementById("input_k").value - 0;
+        calendar.innerHTML = "";
+        color_graph.innerHTML = "";
+        for(var y in result){
+          for(var month in result[y]){
+            for(var d in result[y][month]){
+              for(var h in result[y][month][d]){
+                for(var minute in result[y][month][d][h]){
+                  var n = result[y][month][d][h][minute].day_of_the_week;
+                  if(result2[h] == null){
+                    result2[h] = [];
+                  }
+                  if(result2[h][minute] == null){
+                    result2[h][minute] = [];
+                  }
+                  if(result2[h][minute][n] == null){
+                    result2[h][minute][n] = 0;
+                  }
+                  if(per_day_of_the_week[n] == null){
+                    per_day_of_the_week[n] = 0;
+                    max_of_day_of_the_week[n] = 0;
+                  }
+                  var x = result[y][month][d][h][minute].tweets;
+                  result2[h][minute][n] += x;
+                  per_day_of_the_week[n] += x;
+                  if(max_of_day_of_the_week[n] < result2[h][minute][n]){
+                    max_of_day_of_the_week[n] = result2[h][minute][n];
+                  }
+                }
+              }
+            }
+          }
+        }
+        var i = -1;
+        for(var h = 0; h < 24; ++h){
+          for(var m = 0; m < 12; ++m){
+            var tr = document.createElement("tr"), tr2 = document.createElement("tr");
+            var td, td2;
+            td = document.createElement("td");
+            td.textContent = ("0" + h).slice(-2) + ":" + ("0" + 5 * m).slice(-2) + "-" + ("0" + h).slice(-2) + ":" + ("0" + (5 * (m + 1) - 1)).slice(-2);
+            tr.appendChild(td);
+            if(m == 0){
+              td2 = document.createElement("td");
+              td2.rowSpan = "12";
+              td2.style.backgroundColor = "#FFC";
+              td2.textContent = h;
+              tr2.appendChild(td2);
+            }
+
+            for(var dtw = 0; dtw < 7; ++dtw){
+              td = document.createElement("td");
+              td2 = document.createElement("td");
+              if(result2[h] == null || result2[h][m] == null || result2[h][m][dtw] == null){
+                td.textContent = 0;
+              } else {
+                td.textContent = result2[h][m][dtw];
+                tmp = (result2[h][m][dtw] / max_of_day_of_the_week[dtw] / k);
+                tmp = (tmp > 1)? 1 : tmp;
+                p = Math.floor(tmp * 20) - 1;
+                td2.style.backgroundColor = color[p];
+              }
+              tr.appendChild(td);
+              tr2.appendChild(td2);
+            }
+            calendar.appendChild(tr);
+            color_graph.appendChild(tr2);
+          }
+        }
+        tr = document.createElement("tr");
+        td = document.createElement("td");
+        td.textContent = "合計値";
+        tr.appendChild(td);
+        for(var dtw = 0; dtw < 7; ++dtw){
+          td = document.createElement("td");
+          td.textContent = per_day_of_the_week[dtw];
+          tr.appendChild(td);
+        }
+        calendar.appendChild(tr);
+      }
+    }
+  </script>
+</head>
+<body>
+   <div id="graph"></div>
+   <button id="btn1">解析</button>
+   <input id="input_k" type="number" step="0.01" max="1" min="0" value="0.8">
+   <div class="clearfix">
+     <table border="1">
+       <thead>
+         <tr>
+           <th>&nbsp;&nbsp;&nbsp;</th>
+           <th>日</th>
+           <th>月</th>
+           <th>火</th>
+           <th>水</th>
+           <th>木</th>
+           <th>金</th>
+           <th>土</th>
+         </tr>
+       </thead>
+       <tbody id="calendar">
+       </tbody>
+     </table>
+     <table class="color_graph">
+       <thead>
+         <tr>
+           <th>&nbsp;&nbsp;&nbsp;</th>
+           <th>日</th>
+           <th>月</th>
+           <th>火</th>
+           <th>水</th>
+           <th>木</th>
+           <th>金</th>
+           <th>土</th>
+         </tr>
+       </thead>
+       <tbody id="color_graph">
+       </tbody>
+     </table>
+   </div>
+   <style>
+     table{
+       float: left
+     }
+     .clearfix:after{
+        content: "";
+        display: block;
+        clear: both;
+     }
+     .color_graph > tbody > tr{
+        height: 1px;
+
+     }
+   </style>
+</body>
+</html>
