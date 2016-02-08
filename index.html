@@ -6,7 +6,7 @@
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script src="./data/js/tweet_index.js"></script>
   <script type="text/javascript">
-    var result = [];
+    var result = {tweets: 0, detail: []};
     var Grailbird = function (type, date, data) {
       Grailbird.data = Grailbird.data || {};
       Grailbird.data[type+'_'+date] = data;
@@ -42,31 +42,44 @@
           jst_date = new Date(tmp[0].replace(/-/g, "/") + " " + tmp[1] + " +0000")
           year = jst_date.getFullYear();
           month = jst_date.getMonth();
-          day = jst_date.getDay() - 1;
+          day = jst_date.getDate() - 1;
+          day_of_the_week = jst_date.getDay();
           hour = jst_date.getHours();
           minute = Math.floor(jst_date.getMinutes() / 5);
 
-          if(result[year] == null) {
-            result[year] = [];
+          if(result.detail[year] == null) {
+            result.detail[year] = {tweets: 0, detail: []};
           }
-          if(result[year][month] == null) {
-            result[year][month] = [];
+          if(result.detail[year].detail[month] == null) {
+            result.detail[year].detail[month] = {tweets: 0, detail: [], detail2: []};
           }
-          if(result[year][month][day] == null) {
-            result[year][month][day] = [];
+          if(result.detail[year].detail[month].detail[day] == null) {
+            result.detail[year].detail[month].detail[day] = {day_of_the_week: day_of_the_week, tweets: 0, detail: []};
           }
-          if(result[year][month][day] == null) {
-            result[year][month][day] = [];
+          if(result.detail[year].detail[month].detail2[day_of_the_week] == null) {
+            result.detail[year].detail[month].detail2[day_of_the_week] = {tweets: 0, detail: []};
           }
-          if(result[year][month][day][hour] == null) {
-            result[year][month][day][hour] = [];
+          if(result.detail[year].detail[month].detail[day].detail[hour] == null) {
+            result.detail[year].detail[month].detail[day].detail[hour] = {tweets: 0, detail: []};
           }
-          if(result[year][month][day][hour][minute] == null) {
-            result[year][month][day][hour][minute] = {};
-            result[year][month][day][hour][minute].day_of_the_week = jst_date.getDay();
-            result[year][month][day][hour][minute].tweets = 0;
+          if(result.detail[year].detail[month].detail2[day_of_the_week].detail[hour] == null) {
+            result.detail[year].detail[month].detail2[day_of_the_week].detail[hour] = {tweets: 0, detail: []};
           }
-          ++result[year][month][day][hour][minute].tweets;
+          if(result.detail[year].detail[month].detail[day].detail[hour].detail[minute] == null) {
+            result.detail[year].detail[month].detail[day].detail[hour].detail[minute] = {tweets: 0};
+          }
+          if(result.detail[year].detail[month].detail2[day_of_the_week].detail[hour].detail[minute] == null) {
+            result.detail[year].detail[month].detail2[day_of_the_week].detail[hour].detail[minute] = {tweets: 0};
+          }
+          ++result.tweets;
+          ++result.detail[year].tweets;
+          ++result.detail[year].detail[month].tweets;
+          ++result.detail[year].detail[month].detail[day].tweets;
+          ++result.detail[year].detail[month].detail2[day_of_the_week].tweets;
+          ++result.detail[year].detail[month].detail[day].detail[hour].tweets;
+          ++result.detail[year].detail[month].detail2[day_of_the_week].detail[hour].tweets;
+          ++result.detail[year].detail[month].detail[day].detail[hour].detail[minute].tweets;
+          ++result.detail[year].detail[month].detail2[day_of_the_week].detail[hour].detail[minute].tweets;
         }
 
       }
@@ -77,6 +90,7 @@
   <script>
     window.onload = function(){
       var btn1 = document.getElementById("btn1");
+      var btn2 = document.getElementById("btn2");
       var calendar = document.getElementById("calendar");
       var color_graph = document.getElementById("color_graph");
       var color = [
@@ -127,12 +141,15 @@
                     per_day_of_the_week[n] = 0;
                     max_of_day_of_the_week[n] = 0;
                   }
-                  var x = result[y][month][d][h][minute].tweets;
-                  result2[h][minute][n] += x;
-                  per_day_of_the_week[n] += x;
-                  if(max_of_day_of_the_week[n] < result2[h][minute][n]){
-                    max_of_day_of_the_week[n] = result2[h][minute][n];
+                  if(month != 8 && month != 9 && month != 2 && month != 3){
+                    var x = result[y][month][d][h][minute].tweets;
+                    result2[h][minute][n] += x;
+                    per_day_of_the_week[n] += x;
+                    if(max_of_day_of_the_week[n] < result2[h][minute][n]){
+                      max_of_day_of_the_week[n] = result2[h][minute][n];
+                    }
                   }
+
                 }
               }
             }
