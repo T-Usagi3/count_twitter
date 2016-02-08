@@ -1,12 +1,47 @@
-table{
-  float: left
+table {
+  float: left;
 }
-.clearfix:after{
+.clearfix:after {
    content: "";
    display: block;
    clear: both;
 }
-.color_graph > tbody > tr{
+.color_graph > tbody > tr {
    height: 1px;
+}
 
+.container {
+  width: 1500px;
+}
+
+.center {
+  margin: 0 auto;
+}
+
+.graph2-controlbox {
+  width: 500px;
+}
+
+.table-box {
+  margin-top: 50px;
+  width: 750px;
+}
+
+.table-controlbox {
+  width: 250px;
+}
+
+#input_k {
+  width: 75px;
+  font-size: 25px;
+}
+
+#input_year {
+  width: 75px;
+  font-size: 25px;
+}
+
+#input_month {
+  width: 50px;
+  font-size: 25px;
 }
