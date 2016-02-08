@@ -1,23 +1,21 @@
 var result = {tweets: 0, detail: []};
-var Grailbird = function (type, date, data) {
-  Grailbird.data = Grailbird.data || {};
-  Grailbird.data[type+'_'+date] = data;
-};
-Grailbird.data = Grailbird.data || {};
+var began_at = user_details.created_at.split(/-| /)[0] - 0;
+var Grailbird = {data: {}};
 
+google.load("visualization", "1", {packages:["corechart"]});
 for(var i = tweet_index.length - 1; i >= 0; --i) {
   var script = document.createElement("script");
   script.src = "./" + tweet_index[i].file_name;
   document.getElementById("head").appendChild(script);
 }
 window.addEventListener("load", init, false);
+
 function init(){
   for(var i = tweet_index.length - 1; i >= 0; --i) {
     tweets = Grailbird.data[tweet_index[i].var_name];
     for(var j = 0; j < tweets.length; ++j){
-      tmp = tweets[j].created_at.split(" ");
-      jst_date = new Date(tmp[0].replace(/-/g, "/") + " " + tmp[1] + " +0000");
-      year = jst_date.getFullYear();
+      jst_date = new Date(tweets[j].created_at.replace(/-/g, "/") + " +0000");
+      year = jst_date.getFullYear() - began_at;
       month = jst_date.getMonth();
       day = jst_date.getDate() - 1;
       day_of_the_week = jst_date.getDay();
