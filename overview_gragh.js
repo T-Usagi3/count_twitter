@@ -11,10 +11,10 @@ function draw_overview_gragh() {
     height: 750,
     vAxis:{maxValue: 1000, gridlines: {count: 11}}
   };
-  for(y in result.detail){
-    for(m in result.detail[y].detail){
+  for(y in result.data.detail){
+    for(m in result.data.detail[y].detail){
       tweeted_at = (y - 0 + began_at) + "/" + ("0" + (m - 0 + 1)).slice(-2);
-      tweets = result.detail[y].detail[m].tweets;
+      tweets = result.data.detail[y].detail[m].tweets;
       data.addRows([[tweeted_at, tweets]]);
     }
   }

@@ -1,5 +1,6 @@
-var result = {tweets: 0, detail: []};
+var result;
 var began_at = user_details.created_at.split(/-| /)[0] - 0;
+console.log(user_details.created_at);
 var Grailbird = {data: {}};
 var color = [
   "#FFF",
@@ -33,51 +34,6 @@ for(var i = tweet_index.length - 1; i >= 0; --i) {
 window.addEventListener("load", set_json, false);
 
 function set_json(){
-  for(var i = tweet_index.length - 1; i >= 0; --i) {
-    tweets = Grailbird.data[tweet_index[i].var_name];
-    for(var j = 0; j < tweets.length; ++j){
-      jst_date = new Date(tweets[j].created_at.replace(/-/g, "/") + " +0000");
-      year = jst_date.getFullYear() - began_at;
-      month = jst_date.getMonth();
-      day = jst_date.getDate() - 1;
-      day_of_the_week = jst_date.getDay();
-      hour = jst_date.getHours();
-      minute = Math.floor(jst_date.getMinutes() / 5);
-
-      if(result.detail[year] == null) {
-        result.detail[year] = {tweets: 0, detail: []};
-      }
-      if(result.detail[year].detail[month] == null) {
-        result.detail[year].detail[month] = {tweets: 0, detail: [], detail2: []};
-      }
-      if(result.detail[year].detail[month].detail[day] == null) {
-        result.detail[year].detail[month].detail[day] = {day_of_the_week: day_of_the_week, tweets: 0, detail: []};
-      }
-      if(result.detail[year].detail[month].detail2[day_of_the_week] == null) {
-        result.detail[year].detail[month].detail2[day_of_the_week] = {tweets: 0, detail: []};
-      }
-      if(result.detail[year].detail[month].detail[day].detail[hour] == null) {
-        result.detail[year].detail[month].detail[day].detail[hour] = {tweets: 0, detail: []};
-      }
-      if(result.detail[year].detail[month].detail2[day_of_the_week].detail[hour] == null) {
-        result.detail[year].detail[month].detail2[day_of_the_week].detail[hour] = {tweets: 0, detail: []};
-      }
-      if(result.detail[year].detail[month].detail[day].detail[hour].detail[minute] == null) {
-        result.detail[year].detail[month].detail[day].detail[hour].detail[minute] = {tweets: 0};
-      }
-      if(result.detail[year].detail[month].detail2[day_of_the_week].detail[hour].detail[minute] == null) {
-        result.detail[year].detail[month].detail2[day_of_the_week].detail[hour].detail[minute] = {tweets: 0};
-      }
-      ++result.tweets;
-      ++result.detail[year].tweets;
-      ++result.detail[year].detail[month].tweets;
-      ++result.detail[year].detail[month].detail[day].tweets;
-      ++result.detail[year].detail[month].detail2[day_of_the_week].tweets;
-      ++result.detail[year].detail[month].detail[day].detail[hour].tweets;
-      ++result.detail[year].detail[month].detail2[day_of_the_week].detail[hour].tweets;
-      ++result.detail[year].detail[month].detail[day].detail[hour].detail[minute].tweets;
-      ++result.detail[year].detail[month].detail2[day_of_the_week].detail[hour].detail[minute].tweets;
-    }
-  }
+  result = new Tweets(tweet_index, Grailbird.data, user_details, 5);
   console.log(result);
 }

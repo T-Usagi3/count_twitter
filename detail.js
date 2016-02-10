@@ -14,7 +14,7 @@ function show_detail(){
     vAxis:{maxValue: 50, gridlines: {count: 11}}
   };
   for(var d = 0; d < 31; ++d){
-    tweets = result.detail[y - began_at].detail[m - 1].detail[d];
+    tweets = result.data.detail[y - began_at].detail[m - 1].detail[d];
     data.addRows([[("0" + (d + 1)).slice(-2), (tweets == null)? 0 : tweets.tweets]]);
   }
   chart.draw(data, options);

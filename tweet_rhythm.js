@@ -8,11 +8,11 @@ function show_tweet_rhythm(){
 
   calendar.innerHTML = "";
   color_graph.innerHTML = "";
-  for(var y in result.detail){
-    for(var month in result.detail[y].detail){
-      for(var dtw in result.detail[y].detail[month].detail2){
-        for(var h in result.detail[y].detail[month].detail2[dtw].detail){
-          for(var minute in result.detail[y].detail[month].detail2[dtw].detail[h].detail){
+  for(var y in result.data.detail){
+    for(var month in result.data.detail[y].detail){
+      for(var dtw in result.data.detail[y].detail[month].detail2){
+        for(var h in result.data.detail[y].detail[month].detail2[dtw].detail){
+          for(var minute in result.data.detail[y].detail[month].detail2[dtw].detail[h].detail){
             if(result2[h] == null){
               result2[h] = [];
             }
@@ -26,7 +26,7 @@ function show_tweet_rhythm(){
               per_day_of_the_week[dtw] = 0;
               max_of_day_of_the_week[dtw] = 0;
             }
-            var delta = result.detail[y].detail[month].detail2[dtw].detail[h].detail[minute].tweets;
+            var delta = result.data.detail[y].detail[month].detail2[dtw].detail[h].detail[minute].tweets;
             result2[h][minute][dtw] += delta;
             per_day_of_the_week[dtw] += delta;
             if(max_of_day_of_the_week[dtw] < result2[h][minute][dtw]){
