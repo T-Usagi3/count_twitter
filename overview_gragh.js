@@ -11,12 +11,13 @@ function draw_overview_gragh() {
     height: 750,
     vAxis:{maxValue: 1000, gridlines: {count: 11}}
   };
-  for(y in result.data.detail){
-    for(m in result.data.detail[y].detail){
-      tweeted_at = (y - 0 + began_at) + "/" + ("0" + (m - 0 + 1)).slice(-2);
-      tweets = result.data.detail[y].detail[m].tweets;
-      data.addRows([[tweeted_at, tweets]]);
-    }
+  var today = new Date();
+  result.set(new Date(result.began_at.toString()));
+  for(;result.get() <= today; result.nextMonth()) {
+    var date = result.get();
+    var tweeted_at = date.getFullYear() + "/" + ("0" + (date.getMonth() + 1)).slice(-2);
+    var tweets = result.at("month");
+    data.addRows([[tweeted_at, tweets]]);
   }
   chart.draw(data, options);
 }
