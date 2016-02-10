@@ -55,22 +55,47 @@ Tweets.prototype.allTweets = function() {
   return this.data.tweets;
 }
 
-Tweets.prototype.getTweets = function(date, mode) {
+Tweets.prototype.at = function() {
   var tmp = this.data;
-  var start_year = this.began_at.getFullYear();
-  
-  if(mode == "all_data") {
-    return tmp.tweets;
+  var y, month, d, dtw, h, m;
+  var mode;
+
+  if(arguments[0].constructor.toString().split(/ |\(\)/)[1] == "Date"){
+    var date = arguments[0];
+    y = date.getFullYear() - this.began_at.getFullYear();
+    month = date.getMonth();
+    d = date.getDate() - 1;
+    dtw = date.getDay();
+    h = date.getHours();
+    m = date.getMinutes();
+    mode = arguments[1];
+  } else if(arguments[0].constructor.toString().split(/ |\(\)/)[1] == "Number") {
+    var x = arguments.length;
+    var stack = ["year", "month", "date", "date-hours", "date-minutes", "day", "day-hours", "day-minutes"];
+    y = arguments[0] - this.began_at.getFullYear();
+    month = arguments[1] - 1;
+    d = arguments[2] - 1;
+    dtw = arguments[2];
+    h = arguments[3];
+    minutes = arguments[4];
+
+    if(arguments[x - 1].constructor.toString().split(/ |\(\)/)[1] == "String" && x >= 4 && arguments[x - 1] == "day") {
+      mode = stack[x + 2];
+    } else {
+      mode = stack[x - 1];
+    }
+  } else {
+    return 0;
   }
 
-  tmp = tmp.detail[date.getFullYear() - start_year];
+  tmp = tmp.detail[y];
   if(tmp == null) {
     return 0;
   } else if(mode == "year") {
     return tmp.tweets;
   }
 
-  tmp = tmp.detail[date.getMonth()];
+  tmp = tmp.detail[month];
   if(tmp == null) {
     return 0;
   } else if(mode == "month") {
@@ -79,9 +104,9 @@ Tweets.prototype.getTweets = function(date, mode) {
 
   mode = mode.split("-");
   if(mode[0] == "date") {
-    tmp = tmp.detail[date.getDate() - 1];
+    tmp = tmp.detail[d];
   } else if(mode[0] == "day") {
-    tmp = tmp.detail2[date.getDay()];
+    tmp = tmp.detail2[dtw];
   } else {
     return 0;
   }
@@ -90,14 +115,14 @@ Tweets.prototype.getTweets = function(date, mode) {
     return tmp.tweets;
   }
 
-  tmp = tmp.detail[date.getHours()];
+  tmp = tmp.detail[h];
   if(tmp == null) {
     return 0;
   } else if(mode == "hours") {
     return tmp.tweets;
   }
 
-  tmp = tmp.detail[date.getMinutes()];
+  tmp = tmp.detail[minutes];
   if(tmp == null) {
     return 0;
   } else if(mode == "minutes") {
