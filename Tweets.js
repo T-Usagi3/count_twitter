@@ -2,6 +2,7 @@ function Tweets(index_json, detail_json, user_data, minutes_rank) {
   this.data = {tweets: 0, detail: []};
   this.rank = minutes_rank;
   this.began_at = new Date(user_data.created_at.replace(/-/g, "/"));
+  this.now = new Date(user_data.created_at.replace(/-/g, "/"));
 
   for(var i = index_json.length - 1; i >= 0; --i) {
     var tweets = detail_json[index_json[i].var_name];
@@ -55,79 +56,80 @@ Tweets.prototype.allTweets = function() {
   return this.data.tweets;
 }
 
-Tweets.prototype.at = function() {
+Tweets.prototype.set = function(date) {
+  this.now = date;
+}
+
+Tweets.prototype.get = function(date) {
+  return this.now;
+}
+
+Tweets.prototype.at = function(span) {
   var tmp = this.data;
-  var y, month, d, dtw, h, m;
-  var mode;
+  var date = this.now;
 
-  if(arguments[0].constructor.toString().split(/ |\(\)/)[1] == "Date"){
-    var date = arguments[0];
-    y = date.getFullYear() - this.began_at.getFullYear();
-    month = date.getMonth();
-    d = date.getDate() - 1;
-    dtw = date.getDay();
-    h = date.getHours();
-    m = date.getMinutes();
-    mode = arguments[1];
-  } else if(arguments[0].constructor.toString().split(/ |\(\)/)[1] == "Number") {
-    var x = arguments.length;
-    var stack = ["year", "month", "date", "date-hours", "date-minutes", "day", "day-hours", "day-minutes"];
-    y = arguments[0] - this.began_at.getFullYear();
-    month = arguments[1] - 1;
-    d = arguments[2] - 1;
-    dtw = arguments[2];
-    h = arguments[3];
-    minutes = arguments[4];
+  tmp = tmp.detail[date.getFullYear() - this.began_at.getFullYear()];
+  if(tmp == null) {
+    return 0;
+  } else if(span == "year") {
+    return tmp.tweets;
+  }
 
-    if(arguments[x - 1].constructor.toString().split(/ |\(\)/)[1] == "String" && x >= 4 && arguments[x - 1] == "day") {
-      mode = stack[x + 2];
-    } else {
-      mode = stack[x - 1];
-    }
+  tmp = tmp.detail[date.getMonth()];
+  if(tmp == null) {
+    return 0;
+  } else if(span == "month") {
+    return tmp.tweets;
+  }
+
+  span = span.split("-");
+  if(span[0] == "date") {
+    tmp = tmp.detail[date.getDate()];
+  } else if(span[0] == "day") {
+    tmp = tmp.detail2[date.getDay()];
   } else {
     return 0;
   }
-
-  tmp = tmp.detail[y];
+  span = span[1];
   if(tmp == null) {
     return 0;
-  } else if(mode == "year") {
+  } else if (span == null) {
     return tmp.tweets;
   }
 
-  tmp = tmp.detail[month];
+  tmp = tmp.detail[date.getHours()];
   if(tmp == null) {
     return 0;
-  } else if(mode == "month") {
+  } else if(span == "hours") {
     return tmp.tweets;
   }
 
-  mode = mode.split("-");
-  if(mode[0] == "date") {
-    tmp = tmp.detail[d];
-  } else if(mode[0] == "day") {
-    tmp = tmp.detail2[dtw];
-  } else {
-    return 0;
-  }
-  mode = mode[1];
-  if(mode == null) {
-    return tmp.tweets;
-  }
-
-  tmp = tmp.detail[h];
+  tmp = tmp.detail[date.getMinutes()];
   if(tmp == null) {
     return 0;
-  } else if(mode == "hours") {
-    return tmp.tweets;
-  }
-
-  tmp = tmp.detail[minutes];
-  if(tmp == null) {
-    return 0;
-  } else if(mode == "minutes") {
+  } else if(span == "minutes") {
     return tmp.tweets;
   }
 
   return 0;
+}
+
+Tweets.prototype.nextYear = function (){
+  this.now.setFullYear(this.now.getFullYear() + 1)
+}
+
+Tweets.prototype.nextMonth = function (){
+  this.now.setMonth(this.now.getMonth() + 1)
+}
+
+Tweets.prototype.nextDate = function (){
+  this.now.setDate(this.now.getDate() + 1)
+}
+
+Tweets.prototype.nextHours = function (){
+  this.now.setHours(this.now.getHours() + 1)
+}
+
+Tweets.prototype.nextMinutes = function (){
+  this.now.setMinutes(this.now.getMinutes() + 1)
 }
