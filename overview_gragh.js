@@ -20,5 +20,4 @@ function draw_overview_gragh() {
   }
   chart.draw(data, options);
 }
-
-  window.addEventListener("load", draw_overview_gragh, false);
+window.addEventListener("load", draw_overview_gragh, false);
