@@ -1,6 +1,5 @@
 var result;
 var began_at = user_details.created_at.split(/-| /)[0] - 0;
-console.log(user_details.created_at);
 var Grailbird = {data: {}};
 var color = [
   "#FFF",
