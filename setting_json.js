@@ -30,9 +30,9 @@ for(var i = tweet_index.length - 1; i >= 0; --i) {
   script.src = "./" + tweet_index[i].file_name;
   document.getElementById("head").appendChild(script);
 }
-window.addEventListener("load", init, false);
+window.addEventListener("load", set_json, false);
 
-function init(){
+function set_json(){
   for(var i = tweet_index.length - 1; i >= 0; --i) {
     tweets = Grailbird.data[tweet_index[i].var_name];
     for(var j = 0; j < tweets.length; ++j){
