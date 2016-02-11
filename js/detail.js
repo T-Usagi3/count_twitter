@@ -7,7 +7,7 @@ function show_detail(){
     ['', 0]
   ]);
   var options = {
-    title: 'ツイート数遷移(' + y + '年' + (m + 1) + '月)',
+    title: 'ツイート数遷移(' + y + '年' + m + '月)',
     legend: 'none',
     width: 1500,
     height: 750,
