@@ -47,9 +47,13 @@ Tweets.prototype.allTweets = function() {
   return this.data.tweets;
 }
 
-Tweets.prototype.reset = function() {
+Tweets.prototype.reset = function(mode) {
   var y = this.began_at.getFullYear(), m = this.began_at.getMonth(), d = this.began_at.getDate();
-  this.now = new Date(y, m, d);
+  if(mode) {
+    this.now = new Date(y, m, d);
+  } else {
+    this.now = new Date(y, m, 1);
+  }
 }
 
 Tweets.prototype.set = function(y, month, d, h, minutes) {
