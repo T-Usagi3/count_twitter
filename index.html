@@ -4,15 +4,16 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <script src="http://www.google.com/jsapi" type="text/javascript"></script>
-  <script src="./Tweets.js" type="text/javascript"></script>
-  <script src="./extention_of_date.js" type="text/javascript"></script>
-  <script src="./get_tweets.js" type="text/javascript"></script>
+  <!-- Twitterから、取得できるJSONのファイル読み込み -->
   <script src="./data/js/tweet_index.js" type="text/javascript"></script>
   <script src="./data/js/user_details.js" type="text/javascript"></script>
-  <script src="./setting_json.js" type="text/javascript"></script>
-  <script src="./overview_gragh.js" type="text/javascript"></script>
-  <script src="./tweet_rhythm.js" type="text/javascript"></script>
-  <script src="./detail.js" type="text/javascript"></script>
+  <!-- 自作ライブラリ -->
+  <script src="./js/Tweets.js" type="text/javascript"></script>
+  <script src="./js/get_tweets.js" type="text/javascript"></script>
+  <script src="./js/setting_json.js" type="text/javascript"></script>
+  <script src="./js/overview_gragh.js" type="text/javascript"></script>
+  <script src="./js/tweet_rhythm.js" type="text/javascript"></script>
+  <script src="./js/detail.js" type="text/javascript"></script>
   <script type="text/javascript">
     window.addEventListener("load", init, false);
     function init(){
@@ -22,7 +23,8 @@
       btn2.addEventListener("click", show_detail, false);
     }
   </script>
-  <link rel="stylesheet" href="./application.css">
+  <!-- スタイルシート -->
+  <link rel="stylesheet" href="./css/application.css">
 </head>
 <body>
   <div class="container center">
