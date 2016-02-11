@@ -24,30 +24,19 @@ function Tweets(index_json, detail_json, user_data, minutes_rank) {
       if(this.data.detail[year].detail[month].detail[day] == null) {
         this.data.detail[year].detail[month].detail[day] = {day_of_the_week: day_of_the_week, tweets: 0, detail: []};
       }
-      if(this.data.detail[year].detail[month].detail2[day_of_the_week] == null) {
-        this.data.detail[year].detail[month].detail2[day_of_the_week] = {tweets: 0, detail: []};
-      }
       if(this.data.detail[year].detail[month].detail[day].detail[hour] == null) {
         this.data.detail[year].detail[month].detail[day].detail[hour] = {tweets: 0, detail: []};
-      }
-      if(this.data.detail[year].detail[month].detail2[day_of_the_week].detail[hour] == null) {
-        this.data.detail[year].detail[month].detail2[day_of_the_week].detail[hour] = {tweets: 0, detail: []};
       }
       if(this.data.detail[year].detail[month].detail[day].detail[hour].detail[minute] == null) {
         this.data.detail[year].detail[month].detail[day].detail[hour].detail[minute] = {tweets: 0};
       }
-      if(this.data.detail[year].detail[month].detail2[day_of_the_week].detail[hour].detail[minute] == null) {
-        this.data.detail[year].detail[month].detail2[day_of_the_week].detail[hour].detail[minute] = {tweets: 0};
-      }
+
       ++this.data.tweets;
       ++this.data.detail[year].tweets;
       ++this.data.detail[year].detail[month].tweets;
       ++this.data.detail[year].detail[month].detail[day].tweets;
-      ++this.data.detail[year].detail[month].detail2[day_of_the_week].tweets;
       ++this.data.detail[year].detail[month].detail[day].detail[hour].tweets;
-      ++this.data.detail[year].detail[month].detail2[day_of_the_week].detail[hour].tweets;
       ++this.data.detail[year].detail[month].detail[day].detail[hour].detail[minute].tweets;
-      ++this.data.detail[year].detail[month].detail2[day_of_the_week].detail[hour].detail[minute].tweets;
     }
   }
 }
@@ -56,8 +45,24 @@ Tweets.prototype.allTweets = function() {
   return this.data.tweets;
 }
 
-Tweets.prototype.set = function(date) {
-  this.now = date;
+Tweets.prototype.reset = function() {
+  this.now = new Date(this.began_at.toString());
+}
+
+Tweets.prototype.set = function(y, month, d, h, minutes) {
+  if(minutes != null) {
+    this.now = new Date(y, month - 1, d, h, minutes);
+  } else if(h != null) {
+    this.now = new Date(y, month - 1, d, h);
+  } else if(d != null) {
+    this.now = new Date(y, month - 1, d);
+  } else if(month != null) {
+    this.now = new Date(y, month - 1, 1);
+  } else if(y != null) {
+    this.now = new Date(y, 0, 1);
+  } else {
+    this.now = new Date();
+  }
 }
 
 Tweets.prototype.get = function(date) {
