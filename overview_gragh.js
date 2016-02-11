@@ -12,7 +12,7 @@ function draw_overview_gragh() {
     vAxis:{maxValue: 1000, gridlines: {count: 11}}
   };
   var today = new Date();
-  result.set(new Date(result.began_at.toString()));
+  result.reset();
   for(;result.get() <= today; result.nextMonth()) {
     var date = result.get();
     var tweeted_at = date.getFullYear() + "/" + ("0" + (date.getMonth() + 1)).slice(-2);
