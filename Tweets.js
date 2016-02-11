@@ -136,5 +136,5 @@ Tweets.prototype.nextHours = function (){
 }
 
 Tweets.prototype.nextMinutes = function (){
-  this.now.setMinutes(this.now.getMinutes() + 1)
+  this.now.setMinutes(this.now.getMinutes() + this.rank)
 }
