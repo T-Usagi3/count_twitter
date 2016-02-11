@@ -10,6 +10,8 @@ function show_tweet_rhythm(){
   color_graph.innerHTML = "";
   var today = new Date();
   result.reset();
+  per_day_of_the_week[7] = 0;
+  max_of_day_of_the_week[7] = 0;
   for(;result.get() <= today; result.nextMinutes()) {
     var date = result.get();
     var tweeted_at = date.getFullYear() + "/" + ("0" + (date.getMonth() + 1)).slice(-2);
@@ -21,6 +23,7 @@ function show_tweet_rhythm(){
     }
     if(result2[h][m] == null){
       result2[h][m] = [];
+      result2[h][m][7] = 0;
     }
     if(result2[h][m][dtw] == null){
       result2[h][m][dtw] = 0;
@@ -31,12 +34,19 @@ function show_tweet_rhythm(){
     }
     var delta = result.at("minutes");
     result2[h][m][dtw] += delta;
+    result2[h][m][7] += delta;
     per_day_of_the_week[dtw] += delta;
+    per_day_of_the_week[7] += delta;
+
     if(max_of_day_of_the_week[dtw] < result2[h][m][dtw]){
       max_of_day_of_the_week[dtw] = result2[h][m][dtw];
     }
+    if(max_of_day_of_the_week[7] < result2[h][m][7]){
+      max_of_day_of_the_week[7] = result2[h][m][7];
+    }
   }
   console.log(result2);
+  console.log(max_of_day_of_the_week);
   for(var h = 0; h < 24; ++h){
     for(var m = 0; m < 12; ++m){
       var tr = document.createElement("tr"), tr2 = document.createElement("tr");
@@ -51,8 +61,8 @@ function show_tweet_rhythm(){
         td2.textContent = h;
         tr2.appendChild(td2);
       }
-
-      for(var dtw = 0; dtw < 7; ++dtw){
+      var total = 0;
+      for(var dtw = 0; dtw <= 7; ++dtw){
         td = document.createElement("td");
         td2 = document.createElement("td");
         if(result2[h] == null || result2[h][m] == null || result2[h][m][dtw] == null){
@@ -67,6 +77,7 @@ function show_tweet_rhythm(){
         tr.appendChild(td);
         tr2.appendChild(td2);
       }
+
       calendar.appendChild(tr);
       color_graph.appendChild(tr2);
     }
