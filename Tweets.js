@@ -1,8 +1,10 @@
 function Tweets(index_json, detail_json, user_data, minutes_rank) {
+  var tmp = new Date(user_data.created_at.replace(/-/g, "/"));
+  var y = tmp.getFullYear(), m = tmp.getMonth(), d = tmp.getDate();
   this.data = {tweets: 0, detail: []};
   this.rank = minutes_rank;
-  this.began_at = new Date(user_data.created_at.replace(/-/g, "/"));
-  this.now = new Date(user_data.created_at.replace(/-/g, "/"));
+  this.began_at = tmp;
+  this.now = new Date(y, m, d);
 
   for(var i = index_json.length - 1; i >= 0; --i) {
     var tweets = detail_json[index_json[i].var_name];
@@ -19,7 +21,7 @@ function Tweets(index_json, detail_json, user_data, minutes_rank) {
         this.data.detail[year] = {tweets: 0, detail: []};
       }
       if(this.data.detail[year].detail[month] == null) {
-        this.data.detail[year].detail[month] = {tweets: 0, detail: [], detail2: []};
+        this.data.detail[year].detail[month] = {tweets: 0, detail: []};
       }
       if(this.data.detail[year].detail[month].detail[day] == null) {
         this.data.detail[year].detail[month].detail[day] = {day_of_the_week: day_of_the_week, tweets: 0, detail: []};
@@ -46,7 +48,8 @@ Tweets.prototype.allTweets = function() {
 }
 
 Tweets.prototype.reset = function() {
-  this.now = new Date(this.began_at.toString());
+  var y = this.began_at.getFullYear(), m = this.began_at.getMonth(), d = this.began_at.getDate();
+  this.now = new Date(y, m, d);
 }
 
 Tweets.prototype.set = function(y, month, d, h, minutes) {
@@ -87,18 +90,10 @@ Tweets.prototype.at = function(span) {
     return tmp.tweets;
   }
 
-  span = span.split("-");
-  if(span[0] == "date") {
-    tmp = tmp.detail[date.getDate()];
-  } else if(span[0] == "day") {
-    tmp = tmp.detail2[date.getDay()];
-  } else {
-    return 0;
-  }
-  span = span[1];
+  tmp = tmp.detail[date.getDate() - 1];
   if(tmp == null) {
     return 0;
-  } else if (span == null) {
+  } else if (span == "date") {
     return tmp.tweets;
   }
 
@@ -109,7 +104,7 @@ Tweets.prototype.at = function(span) {
     return tmp.tweets;
   }
 
-  tmp = tmp.detail[date.getMinutes()];
+  tmp = tmp.detail[Math.floor(date.getMinutes() / this.rank)];
   if(tmp == null) {
     return 0;
   } else if(span == "minutes") {
@@ -120,21 +115,21 @@ Tweets.prototype.at = function(span) {
 }
 
 Tweets.prototype.nextYear = function (){
-  this.now.setFullYear(this.now.getFullYear() + 1)
+  this.now.setFullYear(this.now.getFullYear() + 1);
 }
 
 Tweets.prototype.nextMonth = function (){
-  this.now.setMonth(this.now.getMonth() + 1)
+  this.now.setMonth(this.now.getMonth() + 1);
 }
 
 Tweets.prototype.nextDate = function (){
-  this.now.setDate(this.now.getDate() + 1)
+  this.now.setDate(this.now.getDate() + 1);
 }
 
 Tweets.prototype.nextHours = function (){
-  this.now.setHours(this.now.getHours() + 1)
+  this.now.setHours(this.now.getHours() + 1);
 }
 
 Tweets.prototype.nextMinutes = function (){
-  this.now.setMinutes(this.now.getMinutes() + this.rank)
+  this.now.setMinutes(this.now.getMinutes() + this.rank);
 }
