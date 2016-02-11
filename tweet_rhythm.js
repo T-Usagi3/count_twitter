@@ -8,35 +8,35 @@ function show_tweet_rhythm(){
 
   calendar.innerHTML = "";
   color_graph.innerHTML = "";
-  for(var y in result.data.detail){
-    for(var month in result.data.detail[y].detail){
-      for(var dtw in result.data.detail[y].detail[month].detail2){
-        for(var h in result.data.detail[y].detail[month].detail2[dtw].detail){
-          for(var minute in result.data.detail[y].detail[month].detail2[dtw].detail[h].detail){
-            if(result2[h] == null){
-              result2[h] = [];
-            }
-            if(result2[h][minute] == null){
-              result2[h][minute] = [];
-            }
-            if(result2[h][minute][dtw] == null){
-              result2[h][minute][dtw] = 0;
-            }
-            if(per_day_of_the_week[dtw] == null){
-              per_day_of_the_week[dtw] = 0;
-              max_of_day_of_the_week[dtw] = 0;
-            }
-            var delta = result.data.detail[y].detail[month].detail2[dtw].detail[h].detail[minute].tweets;
-            result2[h][minute][dtw] += delta;
-            per_day_of_the_week[dtw] += delta;
-            if(max_of_day_of_the_week[dtw] < result2[h][minute][dtw]){
-              max_of_day_of_the_week[dtw] = result2[h][minute][dtw];
-            }
-          }
-        }
-      }
+  var today = new Date();
+  result.reset();
+  for(;result.get() <= today; result.nextMinutes()) {
+    var date = result.get();
+    var tweeted_at = date.getFullYear() + "/" + ("0" + (date.getMonth() + 1)).slice(-2);
+    var tweets = result.at("date");
+    var h = result.get().getHours(), m = Math.floor(result.get().getMinutes() / result.rank), dtw = result.get().getDay();
+
+    if(result2[h] == null){
+      result2[h] = [];
+    }
+    if(result2[h][m] == null){
+      result2[h][m] = [];
+    }
+    if(result2[h][m][dtw] == null){
+      result2[h][m][dtw] = 0;
+    }
+    if(per_day_of_the_week[dtw] == null){
+      per_day_of_the_week[dtw] = 0;
+      max_of_day_of_the_week[dtw] = 0;
+    }
+    var delta = result.at("minutes");
+    result2[h][m][dtw] += delta;
+    per_day_of_the_week[dtw] += delta;
+    if(max_of_day_of_the_week[dtw] < result2[h][m][dtw]){
+      max_of_day_of_the_week[dtw] = result2[h][m][dtw];
     }
   }
+  console.log(result2);
   for(var h = 0; h < 24; ++h){
     for(var m = 0; m < 12; ++m){
       var tr = document.createElement("tr"), tr2 = document.createElement("tr");
