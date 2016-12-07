@@ -1,23 +1,26 @@
 function draw_overview_gragh() {
-  var chart = new google.visualization.ColumnChart(document.getElementById('graph1'));
-  var data = google.visualization.arrayToDataTable([
+  let chart = new google.visualization.ColumnChart(document.getElementById('graph1'));
+  let data = google.visualization.arrayToDataTable([
     ['年月', 'ツイート数'],
     ['', 0]
   ]);
-  var options = {
+  let options = {
     title: 'ツイート数遷移(月ごと)',
     legend: 'none',
     width: 1500,
     height: 750,
     vAxis:{maxValue: 1000, gridlines: {count: 11}}
   };
-  var today = new Date();
-  result.reset();
-  for(;result.get() <= today; result.nextMonth()) {
-    var date = result.get();
-    var tweeted_at = date.getFullYear() + "/" + ("0" + (date.getMonth() + 1)).slice(-2);
-    var tweets = result.at("month");
-    data.addRows([[tweeted_at, tweets]]);
+  let today = new Date();
+  for(let y = 2014; y <= 2016; ++y) {
+    for(let m = 0; m < 12; ++m) {
+      let start = new Date(y, m, 1);
+      let end = new Date(y, m, 1);
+      for(; m == end.getMonth(); end = new Date(end.valueOf() + 86400000)) {
+      }
+      let sum = result.data.filter(x => new Date(x.created_at) >= start && new Date(x.created_at) < end).length;
+      data.addRows([[`${y}/${m + 1}`, sum]]);
+    }
   }
   chart.draw(data, options);
 }
