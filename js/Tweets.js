@@ -14,6 +14,7 @@ class Tweet extends HashQuery {
     }
   }
 }
+
 function Tweets(index_json, detail_json, user_data, minutes_rank) {
   var tmp = new Date(user_data.created_at.replace(/-/g, "/"));
   var y = tmp.getFullYear(), m = tmp.getMonth(), d = tmp.getDate();

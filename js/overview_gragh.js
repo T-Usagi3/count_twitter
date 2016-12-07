@@ -14,11 +14,7 @@ function draw_overview_gragh() {
   let today = new Date();
   for(let y = 2014; y <= 2016; ++y) {
     for(let m = 0; m < 12; ++m) {
-      let start = new Date(y, m, 1);
-      let end = new Date(y, m, 1);
-      for(; m == end.getMonth(); end = new Date(end.valueOf() + 86400000)) {
-      }
-      let sum = result.where(x => new Date(x.created_at) >= start && new Date(x.created_at) < end).count();
+      let sum = result.where(x => x.created_at >= new Date(y, m, 1) && x.created_at < new Date(y, m + 1, 1)).count();
       data.addRows([[`${y}/${m + 1}`, sum]]);
     }
   }

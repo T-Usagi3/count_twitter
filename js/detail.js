@@ -15,7 +15,7 @@ function show_detail(){
   };
   let date = new Date(y, m, 1);
   for(; m == date.getMonth(); date = new Date(date.valueOf() + 86400000)) {
-    let sum = result.where(x => new Date(x.created_at) >= date && new Date(x.created_at) < new Date(date.valueOf() + 86400000)).count();
+    let sum = result.where(x => x.created_at >= date && x.created_at < new Date(date.valueOf() + 86400000)).count();
     data.addRows([[("0" + date.getDate()).slice(-2), sum]]);
   }
   chart.draw(data, options);
