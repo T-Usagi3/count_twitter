@@ -42,8 +42,8 @@ var show_detail = () => {
   let options = {
     title: 'ツイート数遷移(' + y + '年' + m + '月)',
     legend: 'none',
-    width: 1500,
-    height: 750,
+    width: "100%",
+    height: 300,
     vAxis:{maxValue: 50, gridlines: {count: 11}}
   };
   let date = new Date(y, m, 1);
@@ -67,8 +67,8 @@ window.addEventListener("load", () => {
   let options = {
     title: 'ツイート数遷移(月ごと)',
     legend: 'none',
-    width: 1500,
-    height: 750,
+    width: "100%",
+    height: 300,
     vAxis:{maxValue: 1000, gridlines: {count: 11}}
   };
   let today = new Date();
