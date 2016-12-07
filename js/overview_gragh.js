@@ -18,7 +18,7 @@ function draw_overview_gragh() {
       let end = new Date(y, m, 1);
       for(; m == end.getMonth(); end = new Date(end.valueOf() + 86400000)) {
       }
-      let sum = result.where(x => new Date(x.created_at) >= start && new Date(x.created_at) < end).length
+      let sum = result.where(x => new Date(x.created_at) >= start && new Date(x.created_at) < end).count();
       data.addRows([[`${y}/${m + 1}`, sum]]);
     }
   }

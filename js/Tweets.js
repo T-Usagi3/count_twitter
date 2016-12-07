@@ -1,16 +1,12 @@
-class Tweet {
+class Tweet extends HashQuery {
   constructor(jsonOverview, jsonDetail, userData, minutesRank) {
-    this.data = [];
+    super([]);
     for(let key in jsonDetail) {
       let monthlyDetailData = jsonDetail[key];
       for(let i = 0; i < monthlyDetailData.length; ++i) {
         this.data.push(monthlyDetailData[i]);
       }
     }
-  }
-
-  where(f) {
-    return this.data.filter(x => f(x));
   }
 }
 function Tweets(index_json, detail_json, user_data, minutes_rank) {
