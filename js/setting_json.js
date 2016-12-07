@@ -33,6 +33,8 @@ for(var i = tweet_index.length - 1; i >= 0; --i) {
 window.addEventListener("load", set_json, false);
 
 function set_json(){
+  console.log(Grailbird.data);
   result = new Tweets(tweet_index, Grailbird.data, user_details, 5);
+  result = new Tweet(tweet_index, Grailbird.data, user_details, 5);
   console.log(result);
 }

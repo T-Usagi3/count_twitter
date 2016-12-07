@@ -1,3 +1,14 @@
+class Tweet {
+  constructor(jsonOverview, jsonDetail, userData, minutesRank) {
+    this.data = [];
+    for(let key in jsonDetail) {
+      let monthlyDetailData = jsonDetail[key];
+      for(let i = 0; i < monthlyDetailData.length; ++i) {
+        this.data.push(monthlyDetailData[i]);
+      }
+    }
+  }
+}
 function Tweets(index_json, detail_json, user_data, minutes_rank) {
   var tmp = new Date(user_data.created_at.replace(/-/g, "/"));
   var y = tmp.getFullYear(), m = tmp.getMonth(), d = tmp.getDate();
