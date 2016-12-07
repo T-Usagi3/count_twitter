@@ -8,6 +8,10 @@ class Tweet {
       }
     }
   }
+
+  where(f) {
+    return this.data.filter(x => f(x));
+  }
 }
 function Tweets(index_json, detail_json, user_data, minutes_rank) {
   var tmp = new Date(user_data.created_at.replace(/-/g, "/"));
