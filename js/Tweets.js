@@ -4,7 +4,12 @@ class Tweet extends HashQuery {
     for(let key in jsonDetail) {
       let monthlyDetailData = jsonDetail[key];
       for(let i = 0; i < monthlyDetailData.length; ++i) {
-        this.data.push(monthlyDetailData[i]);
+        let record = monthlyDetailData[i];
+        let tmp = {
+          id: record.id,
+          created_at: new Date(record.created_at)
+        };
+        this.data.push(tmp);
       }
     }
   }
