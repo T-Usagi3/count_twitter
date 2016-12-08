@@ -1,6 +1,5 @@
 google.load("visualization", "1", {packages:["corechart"]});
 let tweetData;
-let began_at = user_details.created_at.split(/-| /)[0] - 0;
 let color = [
   "#FFF",
   "#B4F8FF",
@@ -61,7 +60,7 @@ let drawOverviewGraph = () => {
     vAxis:{maxValue: 1000, gridlines: {count: 11}}
   };
   let today = new Date();
-  for(let y = 2014; y <= 2016; ++y) {
+  for(let y = tweetData.began_at.getFullYear(); y <= today.getFullYear(); ++y) {
     for(let m = 0; m < 12; ++m) {
       let sum = tweetData.where(x => x.created_at >= new Date(y, m, 1) && x.created_at < new Date(y, m + 1, 1)).count();
       data.addRows([[`${y}/${m + 1}`, sum]]);

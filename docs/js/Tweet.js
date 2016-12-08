@@ -1,6 +1,7 @@
 class Tweet extends HashQuery {
   constructor(userData) {
     super([]);
+    this.began_at = new Date(userData.user_details.created_at);
     for(let key in userData) {
       if(/\d{4}_\d{2}/.test(key)) {
         let monthlyDetailData = userData[key];
