@@ -32,10 +32,28 @@ header > h1 {
   background-color: #00c4ff;
 }
 
+#file {
+  display: none;
+}
+
 .clearfix:after {
    content: "";
    display: block;
    clear: both;
+}
+
+label.button {
+  cursor: pointer;
+  display: block;
+  width: 90vw;
+  height: 20vh;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 10vh;
+  border: dashed 1px #000;
+  box-sizing: border-box;
+  padding-top: 2vh;
+  color: #fff;
 }
 
 .center {
