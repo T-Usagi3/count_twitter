@@ -8,9 +8,10 @@ h1 {
 
 header {
   position: fixed;
-  background-color: #fff;
+  background-color: #dbfdff;
   height: 10vh;
   width: 100%;
+  z-index: 100;
 }
 header > h1 {
   font-size: 6vh;
