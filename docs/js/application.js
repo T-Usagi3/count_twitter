@@ -92,7 +92,7 @@ let drawMonthlyGraph = () => {
   let options = {
     title: `ツイート数遷移(${y}年${m + 1}月)`,
     legend: 'none',
-    width: "100%",
+    width: "95%",
     height: 300,
     vAxis:{maxValue: 50, gridlines: {count: 11}}
   };
