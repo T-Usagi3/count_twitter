@@ -82,8 +82,26 @@ window.addEventListener("load", () => {
 });
 
 window.addEventListener("load", () => {
+  zip.workerScripts = {
+    deflater: ["./js/z-worker.js", "./js/deflate.js"],
+    inflater: ["./js/z-worker.js", "./js/inflate.js"]
+  };
   let btn1 = document.getElementById("btn1");
   let btn2 = document.getElementById("btn2");
   btn1.addEventListener("click", show_tweet_rhythm);
   btn2.addEventListener("click", show_detail);
+  document.getElementById("file").addEventListener("change", (e)=>{
+    zip.createReader(new zip.BlobReader(e.target.files[0]), (zipReader) => {
+      zipReader.getEntries((entries) => {
+        console.log(entries);
+        if(entries.length){
+          entries[1].getData(new zip.TextWriter(), (text) => {
+            console.log(text);
+            zipReader.close();
+          });
+        }
+      });
+    },(e) => console.log(e));
+  });
 });
+
