@@ -1,7 +1,6 @@
 google.load("visualization", "1", {packages:["corechart"]});
 let tweetData;
 let began_at = user_details.created_at.split(/-| /)[0] - 0;
-let Grailbird = {data: {}};
 let color = [
   "#FFF",
   "#B4F8FF",
@@ -25,7 +24,7 @@ let color = [
   "#FF0000",
 ];
 
-var show_detail = () => {
+let drawMonthlyGraph = () => {
   let y = document.getElementById("input_year").value - 0 ;
   let m = document.getElementById("input_month").value - 1;
   let chart = new google.visualization.ColumnChart(document.getElementById('graph2'));
@@ -80,7 +79,7 @@ window.addEventListener("load", () => {
   let btn2 = document.getElementById("btn2");
   let rawData = {};
   btn1.addEventListener("click", show_tweet_rhythm);
-  btn2.addEventListener("click", show_detail);
+  btn2.addEventListener("click", drawMonthlyGraph);
   document.getElementById("file").addEventListener("change", (e)=>{
     zip.createReader(new zip.BlobReader(e.target.files[0]), (zipReader) => {
       zipReader.getEntries((entries) => {
@@ -100,7 +99,7 @@ window.addEventListener("load", () => {
           zipReader.close();
         });
       });
-    },(e) => console.log(e));
+    }, (e) => console.log(e));
   });
 });
 
