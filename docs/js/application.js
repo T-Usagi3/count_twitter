@@ -93,13 +93,15 @@ window.addEventListener("load", () => {
   document.getElementById("file").addEventListener("change", (e)=>{
     zip.createReader(new zip.BlobReader(e.target.files[0]), (zipReader) => {
       zipReader.getEntries((entries) => {
-        console.log(entries);
-        if(entries.length){
-          entries[1].getData(new zip.TextWriter(), (text) => {
-            console.log(text);
-            zipReader.close();
+        let useEntries = entries.filter(x => /^data\/js\/tweets\/.*\.js/.test(x.filename) || /^data\/js\/tweet_index.js/.test(x.filename) || /^data\/js\/user_details.js/.test(x.filename));
+        Promise.all(useEntries.map(x => {
+          return new Promise((resolve) => {
+            x.getData(new zip.TextWriter(), (r) => {
+              console.log("read " + x.filename);
+              resolve();
+            });
           });
-        }
+        })).then(() => zipReader.close());
       });
     },(e) => console.log(e));
   });
