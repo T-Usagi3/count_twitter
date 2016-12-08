@@ -22,10 +22,10 @@
       <input type="file" id="file">
       <label for="file" class="button"><i class="fa fa-folder-open" aria-hidden="true"></i>解析するファイルを選択する</label>
     </section>
-    <section>
+    <section hidden>
       <div id="graph1"></div>
     </section>
-    <section>
+    <section hidden>
       <div class="graph2-controlbox center">
         <input type="number" id="input_year" min="2006" value="2010">年
         <input type="number" id="input_month" min="1" max="12" value="1">月のツイート履歴を見る
@@ -33,7 +33,7 @@
       </div>
       <div id="graph2"></div>
     </section>
-    <section>
+    <section hidden>
       <div class="center table-controlbox">
         係数<input id="input_k" type="number" step="0.01" max="1" min="0" value="0.8">
         <button id="btn1">解析</button>

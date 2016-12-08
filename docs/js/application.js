@@ -151,6 +151,7 @@ window.addEventListener("load", () => {
             });
           });
         })).then(() => {
+          $("section").toggle();
           tweetData = new Tweet(rawData);
           drawOverviewGraph();
           console.log(tweetData);
