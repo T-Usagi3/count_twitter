@@ -34,7 +34,7 @@ var show_detail = () => {
     ['', 0]
   ]);
   let options = {
-    title: 'ツイート数遷移(' + y + '年' + m + '月)',
+    title: `ツイート数遷移(${y}年${m + 1}月)`,
     legend: 'none',
     width: "100%",
     height: 300,
