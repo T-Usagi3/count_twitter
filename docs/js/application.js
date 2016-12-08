@@ -92,8 +92,8 @@ let drawMonthlyGraph = () => {
   let options = {
     title: `ツイート数遷移(${y}年${m + 1}月)`,
     legend: 'none',
-    width: "95%",
-    height: 300,
+    width: "100%",
+    height: 500,
     vAxis:{maxValue: 50, gridlines: {count: 11}}
   };
   let date = new Date(y, m, 1);
@@ -114,7 +114,7 @@ let drawOverviewGraph = () => {
     title: 'ツイート数遷移(月ごと)',
     legend: 'none',
     width: "100%",
-    height: 300,
+    height: 500,
     vAxis:{maxValue: 1000, gridlines: {count: 11}}
   };
   let today = new Date();
