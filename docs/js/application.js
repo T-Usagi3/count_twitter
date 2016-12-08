@@ -138,6 +138,7 @@ window.addEventListener("load", () => {
   btn1.addEventListener("click", drawTweetRhythm);
   btn2.addEventListener("click", drawMonthlyGraph);
   document.getElementById("file").addEventListener("change", (e)=>{
+    $(".modal").toggleClass("hidden", false);
     zip.createReader(new zip.BlobReader(e.target.files[0]), (zipReader) => {
       zipReader.getEntries((entries) => {
         let useEntries = entries.filter(x => /^data\/js\/tweets\/.*\.js/.test(x.filename) || /^data\/js\/tweet_index.js/.test(x.filename) || /^data\/js\/user_details.js/.test(x.filename));
@@ -154,6 +155,7 @@ window.addEventListener("load", () => {
           drawOverviewGraph();
           console.log(tweetData);
           zipReader.close();
+          $(".modal").toggleClass("hidden", true);
         });
       });
     }, (e) => console.log(e));
