@@ -2,8 +2,15 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Tweet Analitcs</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="ツイートを解析するサイト">
+  <meta property="og:title" content="Tweet Analitics">
+  <meta property="og:description" content="ツイートを解析するサイト">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Tweet Analitics">
+  <meta name="twitter:description" content="ツイートを解析するサイト">
+  <!-- <meta name="twitter:image" content=""> -->
   <script src="http://www.google.com/jsapi"></script>
   <script src="./js/jquery-3.1.1.min.js"></script>
   <script src="./js/zip.js"></script>
@@ -27,7 +34,7 @@
     </section>
     <section hidden>
       <div class="graph2-controlbox center">
-        <input type="number" id="input_year" min="2006" value="2010">年
+        <input type="number" id="input_year" min="2006" value="2016">年
         <input type="number" id="input_month" min="1" max="12" value="1">月のツイート履歴を見る
         <button id="btn2">解析</button>
       </div>
