@@ -25,12 +25,6 @@ let color = [
   "#FF0000",
 ];
 
-for(var i = tweet_index.length - 1; i >= 0; --i) {
-  var script = document.createElement("script");
-  script.src = "./" + tweet_index[i].file_name;
-  document.getElementById("head").appendChild(script);
-}
-
 var show_detail = () => {
   let y = document.getElementById("input_year").value - 0 ;
   let m = document.getElementById("input_month").value - 1;
@@ -54,11 +48,7 @@ var show_detail = () => {
   chart.draw(data, options);
 }
 
-window.addEventListener("load", () =>{
-  tweetData = new Tweet(tweet_index, Grailbird.data, user_details, 5);
-});
-
-window.addEventListener("load", () => {
+let drawOverviewGraph = () => {
   let chart = new google.visualization.ColumnChart(document.getElementById('graph1'));
   let data = google.visualization.arrayToDataTable([
     ['年月', 'ツイート数'],
@@ -79,7 +69,7 @@ window.addEventListener("load", () => {
     }
   }
   chart.draw(data, options);
-});
+};
 
 window.addEventListener("load", () => {
   zip.workerScripts = {
@@ -88,7 +78,7 @@ window.addEventListener("load", () => {
   };
   let btn1 = document.getElementById("btn1");
   let btn2 = document.getElementById("btn2");
-  let mainData = {};
+  let rawData = {};
   btn1.addEventListener("click", show_tweet_rhythm);
   btn2.addEventListener("click", show_detail);
   document.getElementById("file").addEventListener("change", (e)=>{
@@ -99,12 +89,14 @@ window.addEventListener("load", () => {
           return new Promise((resolve) => {
             x.getData(new zip.TextWriter(), (r) => {
               let index = x.filename.replace(/data\/js\/(tweets\/)?|\.js/g, "");
-              mainData[index] = JSON.parse(r.replace(/^(var )?.* = /, ""));
+              rawData[index] = JSON.parse(r.replace(/^(var )?.* = /, ""));
               resolve();
             });
           });
         })).then(() => {
-          console.log(mainData);
+          tweetData = new Tweet(rawData);
+          drawOverviewGraph();
+          console.log(tweetData);
           zipReader.close();
         });
       });
