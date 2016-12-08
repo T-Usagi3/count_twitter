@@ -88,20 +88,25 @@ window.addEventListener("load", () => {
   };
   let btn1 = document.getElementById("btn1");
   let btn2 = document.getElementById("btn2");
+  let mainData = {};
   btn1.addEventListener("click", show_tweet_rhythm);
   btn2.addEventListener("click", show_detail);
   document.getElementById("file").addEventListener("change", (e)=>{
     zip.createReader(new zip.BlobReader(e.target.files[0]), (zipReader) => {
       zipReader.getEntries((entries) => {
         let useEntries = entries.filter(x => /^data\/js\/tweets\/.*\.js/.test(x.filename) || /^data\/js\/tweet_index.js/.test(x.filename) || /^data\/js\/user_details.js/.test(x.filename));
-        Promise.all(useEntries.map(x => {
+        Promise.all(useEntries.map((x, i) => {
           return new Promise((resolve) => {
             x.getData(new zip.TextWriter(), (r) => {
-              console.log("read " + x.filename);
+              let index = x.filename.replace(/data\/js\/(tweets\/)?|\.js/g, "");
+              mainData[index] = JSON.parse(r.replace(/^(var )?.* = /, ""));
               resolve();
             });
           });
-        })).then(() => zipReader.close());
+        })).then(() => {
+          console.log(mainData);
+          zipReader.close();
+        });
       });
     },(e) => console.log(e));
   });
