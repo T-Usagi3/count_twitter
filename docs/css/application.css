@@ -6,9 +6,30 @@ h1 {
   margin: 0;
 }
 
+header {
+  position: fixed;
+  background-color: #fff;
+  height: 10vh;
+  width: 100vw;
+}
+header > h1 {
+  font-size: 6vh;
+}
+
 #container {
-  width: 95vw;
+  width: 100vw;
   margin: 0 auto;
+}
+#container > section {
+  height: 100vh;
+  padding-top: 10vh;
+  box-sizing: border-box;
+}
+#container > section:nth-child(2n) {
+  background-color: #fff;
+}
+#container > section:nth-child(2n+1) {
+  background-color: #00c4ff;
 }
 
 .clearfix:after {

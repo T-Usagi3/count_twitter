@@ -13,42 +13,48 @@
   <link rel="stylesheet" href="./css/application.css">
 </head>
 <body>
-  <input type="file" id="file">
   <header>
-    <h1>ツイートカウンター</h1>
+    <h1>ツイートアナリティクス</h1>
   </header>
   <div id="container">
-    <div id="graph1"></div>
-    <div class="center">
+    <section>
+      <input type="file" id="file">
+    </section>
+    <section>
+      <div id="graph1"></div>
+    </section>
+    <section>
       <div class="graph2-controlbox center">
         <input type="number" id="input_year" min="2006" value="2010">年
         <input type="number" id="input_month" min="1" max="12" value="1">月のツイート履歴を見る
         <button id="btn2">解析</button>
       </div>
       <div id="graph2"></div>
-    </div>
+    </section>
 
-    <div class="center table-controlbox">
-      係数<input id="input_k" type="number" step="0.01" max="1" min="0" value="0.8">
-      <button id="btn1">解析</button>
-    </div>
-    <table class="calendar">
-      <thead>
-        <tr>
-          <th>&nbsp;&nbsp;&nbsp;</th>
-          <th>日</th>
-          <th>月</th>
-          <th>火</th>
-          <th>水</th>
-          <th>木</th>
-          <th>金</th>
-          <th>土</th>
-          <th>総合</th>
-        </tr>
-      </thead>
-      <tbody id="calendar">
-      </tbody>
-    </table>
+    <section>
+      <div class="center table-controlbox">
+        係数<input id="input_k" type="number" step="0.01" max="1" min="0" value="0.8">
+        <button id="btn1">解析</button>
+      </div>
+      <table class="calendar">
+        <thead>
+          <tr>
+            <th>&nbsp;&nbsp;&nbsp;</th>
+            <th>日</th>
+            <th>月</th>
+            <th>火</th>
+            <th>水</th>
+            <th>木</th>
+            <th>金</th>
+            <th>土</th>
+            <th>総合</th>
+          </tr>
+        </thead>
+        <tbody id="calendar">
+        </tbody>
+      </table>
+    </section>
   </div>
 </body>
 </html>
